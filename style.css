@@ -42,22 +42,30 @@ html, body {
 .screen-container{
     width: 100%;
     height: 25vh;
+    background-color: #2E315C;
+    color: white;
+    font: normal 5em digital;
+    text-align: right;
+
     /*padding: 20px;*/
     box-sizing: padding-box;
 }
 
 .screen{
-    height: 100%;
-    background-color: #bccd95;
-    background-color: #2E315C;
+    height: 55%;
+    /*background-color: #bccd95;*/
+    /*background-color: #2E315C;*/
     /*background-color: #FFFFFF;*/
     /*border: 2px solid grey;*/
-    color: white;
     /*border-radius: 5px;*/
-    text-align: right;
-    font: normal 4em digital;
     direction: rtl;
     padding: 0 5px;
+}
+.screen-lower{
+    height: 45%;
+    padding: 0 5px;
+
+    font-size: .8em;
 }
 
 .button-container{

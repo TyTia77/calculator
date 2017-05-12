@@ -5,11 +5,17 @@ app.controller('mainCtrl', ['$scope', function($scope){
 
 initButton();
 
+var regexp = /\d/;
+var regendnum = /\d$/;
+var regop = /([*-/+])/;
+
 $scope.screen = '';
+//TODO
+$scope.screenLower = '';
+$scope.screenMemory = '';
 var entry = '';
 $scope.keyPress = function(ev){
-    var regexp = /\d/;
-    var regendnum = /\d$/;
+
     // $scope.screen += ev.target.dataset.value;
 
     var keyPressed = ev.target.dataset.value;
@@ -23,8 +29,11 @@ $scope.keyPress = function(ev){
     else {
         switch (keyPressed){
             case 'ac':
-            case 'ce':
                 buttonFunctions.clearAll();
+                break;
+
+            case 'ce':
+                buttonFunctions.clearEntry();
                 break;
 
             case 'rt':
@@ -39,23 +48,26 @@ $scope.keyPress = function(ev){
 
             case '+':
                 entry += '+';
-                $scope.screen += '+';
+                $scope.screenLower += $scope.screen +'+';
+                $scope.screen = '';
                 break;
 
             case '/':
                 entry += '/';
-                $scope.screen += '&#247;';
-                console.log($scope.screen);
+                $scope.screenLower += $scope.screen +'&#247;';
+                $scope.screen = '';
                 break;
 
             case '-':
                 entry += '-';
-                $scope.screen += '-';
+                $scope.screenLower += $scope.screen +'-';
+                $scope.screen = '';
                 break;
 
             case '*':
                 entry += '*';
-                $scope.screen += 'x';
+                $scope.screenLower += $scope.screen +'x';
+                $scope.screen = '';
                 break;
 
             case '=':
@@ -80,18 +92,21 @@ $scope.keyPress = function(ev){
 var buttonFunctions = {
      clearAll: function(){
         entry = '';
-        clearScreen();
+        clearScreen(true);
     },
 
     //TODO
     clearEntry: function(){
-
+        clearScreen();
     },
 
     calculate: function(entry){
+        var test = entry.match(regop).index;
+        if (test){
+            $scope.screenLower += entry.slice(test+1, entry.length);
+        }
         entry = eval(entry);
         $scope.screen = entry;
-        console.log('screen', $scope.screen);
     }
 };
 
@@ -100,8 +115,14 @@ function displayScreen(){
 
 }
 
-function clearScreen(){
-    $scope.screen = '';
+function clearScreen(all){
+    if (all){
+        $scope.screen = '';
+        $scope.screenLower = ''
+    }
+    else {
+        $scope.screen = '';
+    }
 }
 
 function initButton(){
@@ -134,7 +155,7 @@ function initButton(){
         ], [
             { label:'0', value: 0 },
             { label:'.', value: '.' },
-            { label:'-/+', value: '-/+' },
+            { label:'- / +', value: '-/+' },
             { label:'=', value: '=' }
         ]
     ];
