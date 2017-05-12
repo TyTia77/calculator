@@ -4,10 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="icon.ico">
     ​<link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular-sanitize.min.js"></script>
     <script src="script.js"></script>
     <title>Calculator</title>
 </head>
@@ -16,14 +18,15 @@
 
         <div class="cal-container">
             <div class="screen-container">
-                <div class="screen">screen</div>
+                <div class="screen" ng-bind-html="screen">{{screen}}</div>
             </div>
             <div class="button-container">
                 <div class="row" ng-repeat="row in btn">
                     <span
                         class="col-xs-3 key"
                         ng-repeat="button in row"
-                        value="{{button.value}}"
+                        data-value="{{button.value}}"
+                        ng-bind-html="button.label"
                         ng-click="keyPress($event)">{{button.label}}</span>
                 </div>
             </div>
