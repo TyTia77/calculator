@@ -124,10 +124,10 @@ function handlePeriod(){
     } else {
         if (!period){
             current += '.';
-            period = !period;
         }
     }
 
+    period = true;
     toScreen(current);
 }
 
