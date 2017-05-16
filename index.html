@@ -13,13 +13,10 @@
     <script src="script.js"></script>
     <title>Calculator</title>
 </head>
-
     <body ng-app="calculator" ng-controller="mainCtrl">
-
         <div class="cal-container">
             <div class="screen-container">
                 <div class="screen" ng-bind-html="screen">{{screen}}</div>
-                <div class="screen-lower" ng-bind-html="screenLower">{{screenLower}} party</div>
             </div>
             <div class="button-container">
                 <div class="row" ng-repeat="row in btn">
@@ -32,6 +29,5 @@
                 </div>
             </div>
         </div>
-
     </body>
 </html>

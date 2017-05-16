@@ -12,15 +12,16 @@ var operator = '';
 var display = '';
 var abs = true;
 
+var memory = 0;
+var mrc = false;
+var mempressed = false;
+
 // keep track of period
 // only allow to use once
 // resets on anybutton except
 // nums
 var period = false;
 
-//TODO
-$scope.screenLower = '';
-$scope.screenMemory = '';
 
 $scope.keyPress = function(ev){
     var regexp = /\d/;
@@ -30,6 +31,7 @@ $scope.keyPress = function(ev){
         handleNum(keyPressed);
     }
     else {
+        mempressed = false;
         switch (keyPressed){
             case 'ac':
             case 'ce':
@@ -41,6 +43,12 @@ $scope.keyPress = function(ev){
             case '-':
             case '*':
                 handleOp(keyPressed);
+                break;
+
+            case 'm+':
+            case 'm-':
+            case 'mrc':
+                handleMem(keyPressed);
                 break;
 
             case 'rt':
@@ -71,8 +79,35 @@ $scope.keyPress = function(ev){
     }, 100);
 }
 
+function handleMem(key){
+    var valOnScreen = parseInt($scope.screen);
+
+    if (key === 'm+'){
+        memory += valOnScreen;
+        current = memory;
+        mrc = false;
+    } else if (key === 'm-'){
+        memory -= valOnScreen;
+        current = memory;
+        mrc = false;
+    } else if (key === 'mrc' && mrc){
+        memory = 0;
+        mrc = false;
+    } else if (key === 'mrc' && memory !== 0){
+        current = memory;
+        toScreen(current);
+        mrc = true;
+    }
+
+    mempressed = true;
+}
 
 function handleNum(key){
+    if (mempressed){
+        current = '';
+        mempressed = false;
+    }
+
     var reg = /^0\d/;
     var reg1 = /^-0\d/;
     current += key;
@@ -190,7 +225,7 @@ function toScreen(display){
     // if display is number, convert to string
     display = typeof display === 'number' ? display.toString() : display;
     var len = display.length;
-    var maxlen = 11;
+    var maxlen = 8;
 
     display = len > maxlen ? display.slice(0, maxlen) : display;
     $scope.screen = display;
@@ -226,7 +261,7 @@ $scope.btn = [
     ], [
         { label:'0', value: 0 },
         { label:'.', value: '.' },
-        { label:'- / +', value: '-/+' },
+        { label:'-/+', value: '-/+' },
         { label:'=', value: '=' }
     ]
 ];
